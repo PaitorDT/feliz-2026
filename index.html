@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>🎆 Feliz Año Nuevo 2026 🎆</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(120deg, #000428, #004e92);
+        color: white;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .contenedor {
+        text-align: center;
+        width: 90%;
+        max-width: 500px;
+        z-index: 10;
+    }
+
+    h1 {
+        color: gold;
+        font-size: 2.5rem;
+        animation: brillo 1s infinite alternate;
+    }
+
+    @keyframes brillo {
+        from { text-shadow: 0 0 10px gold; }
+        to { text-shadow: 0 0 30px red; }
+    }
+
+    input {
+        width: 80%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        text-align: center;
+        margin-top: 5px;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background: gold;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #mensaje {
+        margin-top: 15px;
+        font-size: 1rem;
+        white-space: pre-line;
+    }
+
+    #animacion {
+        margin-top: 20px;
+        font-size: 2rem;
+        min-height: 60px;
+    }
+
+    /* Fuegos artificiales */
+    .fuego {
+        position: absolute;
+        font-size: 2em;
+        animation: subir 3s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes subir {
+        from {
+            transform: translateY(100vh);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(-10vh);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+    <h1 id="titulo">🎆 Feliz Año Nuevo 🎆</h1>
+
+    <p>Holi 💖:</p>
+    <input type="text" id="nombre" value="Jhuliset">
+
+    <br>
+    <button onclick="celebrar()">Celebrar 🎉</button>
+
+    <div id="mensaje"></div>
+    <div id="animacion"></div>
+
+    <audio id="musica" src="musica.wav"></audio>
+</div>
+
+<script>
+    const fuegos = ["🎆", "🎇", "✨", "🎉", "🥂", "🕺", "🎈"];
+    const colores = ["#ffbe0b", "#fb5607", "#ff006e", "#8338ec", "#3a86ff"];
+
+    let contador = 0;
+    let intervalo;
+
+    function animar() {
+        if (contador < 12) {
+            const emoji = fuegos[Math.floor(Math.random() * fuegos.length)];
+            const color = colores[Math.floor(Math.random() * colores.length)];
+
+            document.getElementById("animacion").textContent += " " + emoji;
+            document.getElementById("animacion").style.color = color;
+            document.getElementById("titulo").style.color = color;
+            document.getElementById("mensaje").style.color = color;
+
+            contador++;
+        } else {
+            clearInterval(intervalo);
+            document.getElementById("animacion").textContent =
+                "🎆🎇 ¡FELIZ AÑO NUEVO! 🎇🎆";
+            document.getElementById("titulo").style.color = "gold";
+            document.getElementById("mensaje").style.color = "white";
+        }
+    }
+
+    function crearFuego() {
+        const fuego = document.createElement("div");
+        fuego.classList.add("fuego");
+        fuego.textContent = "🎆";
+        fuego.style.left = Math.random() * 100 + "vw";
+        fuego.style.animationDuration = (2 + Math.random() * 2) + "s";
+        document.body.appendChild(fuego);
+
+        setTimeout(() => fuego.remove(), 3000);
+    }
+
+    function celebrar() {
+        const nombre = document.getElementById("nombre").value.trim();
+        const mensaje = document.getElementById("mensaje");
+        const animacion = document.getElementById("animacion");
+        const musica = document.getElementById("musica");
+
+        mensaje.textContent = nombre === ""
+            ? "✨ Feliz Año Nuevo ✨"
+            : `✨ ¡Feliz Año Nuevo, ${nombre}! ✨
+Que este año esté lleno de salud y amor,
+que te vaya súper bien y que todo lo que te propongas se cumpla...
+Con cariño, Piero 💖`;
+
+        animacion.textContent = "";
+        contador = 0;
+
+        musica.currentTime = 0;
+        musica.play();
+
+        setTimeout(() => {
+            musica.pause();
+            musica.currentTime = 0;
+        }, 9000);
+
+        intervalo = setInterval(animar, 300);
+
+        // Fuegos artificiales
+        for (let i = 0; i < 20; i++) {
+            setTimeout(crearFuego, i * 200);
+        }
+    }
+</script>
+
+</body>
+</html>
